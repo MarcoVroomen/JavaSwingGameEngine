@@ -34,8 +34,45 @@ public class Scene {
     }
 
     public void PhysicsUpdate(){
+        List<Collider2D> colliders = new ArrayList<>();
+
         for (GameObject obj : objects) {
             obj.PhysicsUpdate();  // Jedes Objekt in der Szene rendern
+
+            Collider2D collider = obj.GetComponent(Collider2D.class);
+            if (collider != null)
+            {
+                colliders.add(collider);
+            }
+        }
+
+        for (int i = 0; i < colliders.size(); i++)
+        {
+            Collider2D first = colliders.get(i);
+            for (int j = i + 1; j < colliders.size(); j++)
+            {
+                Collider2D second = colliders.get(j);
+
+                if (!first.CheckIntersectionInterpolated(second))
+                {
+                    continue;
+                }
+
+                first.OnCollision(second);
+                second.OnCollision(first);
+
+                Rigidbody2D firstBody = first.MyGameObject.GetComponent(Rigidbody2D.class);
+                if (firstBody != null)
+                {
+                    firstBody.setVelocity(new Vector2D(0, 0));
+                }
+
+                Rigidbody2D secondBody = second.MyGameObject.GetComponent(Rigidbody2D.class);
+                if (secondBody != null)
+                {
+                    secondBody.setVelocity(new Vector2D(0, 0));
+                }
+            }
         }
     }
 
