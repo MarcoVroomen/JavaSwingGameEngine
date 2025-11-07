@@ -38,6 +38,11 @@ public class Rectangle extends Renderer {
     @Override
     public void Render(Graphics2D g, int screenWidth, int screenHeight) {
         g.setColor(color);
-        g.fillRect(x, y, width, height);  // Zeichnet das Rechteck
+
+        Vector2D position = MyGameObject.GetTransform().getPosition();
+        int screenX = (int) Math.round(position.getX() + x);
+        int screenY = screenHeight - (int) Math.round(position.getY() + y + height);
+
+        g.fillRect(screenX, screenY, width, height);  // Zeichnet das Rechteck basierend auf dem Transform
     }
 }
