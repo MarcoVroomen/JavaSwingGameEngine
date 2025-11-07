@@ -1,4 +1,4 @@
-package Engine;
+package engine;
 public class Vector2D {
     private double x;
     private double y;
@@ -14,10 +14,21 @@ public class Vector2D {
     }
 
     // Getter und Setter
-    public double getX() { return x; }
-    public void setX(double x) { this.x = x; }
-    public double getY() { return y; }
-    public void setY(double y) { this.y = y; }
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
 
     // Addition von Vektoren
     public Vector2D add(Vector2D other) {

@@ -1,4 +1,4 @@
-package Engine;
+package engine;
 
 import javax.swing.JPanel;
 import java.awt.Graphics;

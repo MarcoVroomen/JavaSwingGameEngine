@@ -1,55 +1,71 @@
-package Engine;
+package engine;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 
 // Zentrale Eingabeverwaltung für Tastaturereignisse
-public class Input {
+public final class Input {
     // Aktueller Tastenzustand pro KeyCode
     private static boolean[] keyStates = new boolean[256];
 
     // Tastenzustand des vorigen Frames
     private static boolean[] prevKeyStates = new boolean[256];
 
+    private Input() {
+        // Utility class
+    }
+
     // Überprüft, ob eine Taste (als Zeichen) in diesem Frame gedrückt wurde
-    public static boolean GetKeyDown(char key) {
+    public static boolean getKeyDown(char key) {
         int keyCode = KeyEvent.getExtendedKeyCodeForChar(key);
-        if (keyCode == KeyEvent.VK_UNDEFINED) return false;
-        return GetKeyDown(keyCode);
+        if (keyCode == KeyEvent.VK_UNDEFINED) {
+            return false;
+        }
+        return getKeyDown(keyCode);
     }
 
     // Überprüft, ob eine Taste (als Zeichen) in diesem Frame losgelassen wurde
-    public static boolean GetKeyUp(char key) {
+    public static boolean getKeyUp(char key) {
         int keyCode = KeyEvent.getExtendedKeyCodeForChar(key);
-        if (keyCode == KeyEvent.VK_UNDEFINED) return false;
-        return GetKeyUp(keyCode);
+        if (keyCode == KeyEvent.VK_UNDEFINED) {
+            return false;
+        }
+        return getKeyUp(keyCode);
     }
 
     // Überprüft, ob eine Taste (als Zeichen) gehalten wird
-    public static boolean GetKey(char key) {
+    public static boolean getKey(char key) {
         int keyCode = KeyEvent.getExtendedKeyCodeForChar(key);
-        if (keyCode == KeyEvent.VK_UNDEFINED) return false;
-        return GetKey(keyCode);
+        if (keyCode == KeyEvent.VK_UNDEFINED) {
+            return false;
+        }
+        return getKey(keyCode);
     }
 
     // Überprüft, ob eine Taste (KeyCode) in diesem Frame gedrückt wurde
-    public static boolean GetKeyDown(int keyCode) {
-        if (keyCode < 0) return false;
+    public static boolean getKeyDown(int keyCode) {
+        if (keyCode < 0) {
+            return false;
+        }
         ensureCapacity(keyCode);
         return keyStates[keyCode] && !prevKeyStates[keyCode];
     }
 
     // Überprüft, ob eine Taste (KeyCode) in diesem Frame losgelassen wurde
-    public static boolean GetKeyUp(int keyCode) {
-        if (keyCode < 0) return false;
+    public static boolean getKeyUp(int keyCode) {
+        if (keyCode < 0) {
+            return false;
+        }
         ensureCapacity(keyCode);
         return !keyStates[keyCode] && prevKeyStates[keyCode];
     }
 
     // Überprüft, ob eine Taste (KeyCode) gehalten wird
-    public static boolean GetKey(int keyCode) {
-        if (keyCode < 0) return false;
+    public static boolean getKey(int keyCode) {
+        if (keyCode < 0) {
+            return false;
+        }
         ensureCapacity(keyCode);
         return keyStates[keyCode];
     }
@@ -59,7 +75,9 @@ public class Input {
         @Override
         public void keyPressed(KeyEvent e) {
             int code = e.getKeyCode();
-            if (code < 0) return;
+            if (code < 0) {
+                return;
+            }
             ensureCapacity(code);
             keyStates[code] = true;
         }
@@ -67,13 +85,17 @@ public class Input {
         @Override
         public void keyReleased(KeyEvent e) {
             int code = e.getKeyCode();
-            if (code < 0) return;
+            if (code < 0) {
+                return;
+            }
             ensureCapacity(code);
             keyStates[code] = false;
         }
 
         @Override
-        public void keyTyped(KeyEvent e) {}
+        public void keyTyped(KeyEvent e) {
+            // Nicht benötigt
+        }
     }
 
     // Fügt den KeyListener einem Panel hinzu und stellt sicher, dass es Fokus erhält
@@ -97,13 +119,14 @@ public class Input {
 
     // Vergrößert die Zustandsarrays bei Bedarf
     private static void ensureCapacity(int keyCode) {
-        if (keyCode < 0) return;
-        if (keyCode < keyStates.length) return;
+        if (keyCode < 0 || keyCode < keyStates.length) {
+            return;
+        }
         int newLen = keyStates.length;
         while (newLen <= keyCode) {
             newLen *= 2;
             if (newLen > 1 << 16) {
-                newLen = (1 << 16);
+                newLen = 1 << 16;
                 break;
             }
         }
