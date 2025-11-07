@@ -1,4 +1,4 @@
-package Engine;
+package engine;
 
 public class Transform {
     private Vector2D position;
@@ -12,22 +12,38 @@ public class Transform {
     }
 
     // Getter und Setter
-    public Vector2D getPosition() { return position; }
-    public void setPosition(Vector2D position) { this.position = position; }
-    public Vector2D getScale() { return scale; }
-    public void setScale(Vector2D scale) { this.scale = scale; }
-    public double getRotation() { return rotation; }
-    public void setRotation(double rotation) { this.rotation = rotation; }
+    public Vector2D getPosition() {
+        return position;
+    }
+
+    public void setPosition(Vector2D position) {
+        this.position = position;
+    }
+
+    public Vector2D getScale() {
+        return scale;
+    }
+
+    public void setScale(Vector2D scale) {
+        this.scale = scale;
+    }
+
+    public double getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
+    }
 
     // Berechnung der Transformationsmatrix
     public double[] getTransformationMatrix() {
         double cos = Math.cos(Math.toRadians(rotation));
         double sin = Math.sin(Math.toRadians(rotation));
-        double[] matrix = {
+        return new double[] {
                 cos * scale.getX(), -sin * scale.getY(), position.getX(),
                 sin * scale.getX(), cos * scale.getY(), position.getY(),
                 0, 0, 1
         };
-        return matrix;
     }
 }

@@ -1,11 +1,11 @@
-package Engine;
+package engine;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Game {
-    private Map<String, Scene> scenes;
+    private final Map<String, Scene> scenes;
     private Scene currentScene;
     private boolean running;
 
@@ -31,11 +31,11 @@ public class Game {
         // Starte das Spiel in einem neuen Thread, um die GUI nicht zu blockieren
         new Thread(() -> {
 
-            Start();
+            startScene();
 
             // FPS-Steuerung
             long lastTime = System.nanoTime();
-            double nsPerTick = 1000000000.0 / 120.0;  // 60 FPS
+            double nsPerTick = 1_000_000_000.0 / 120.0;  // 120 FPS
             double delta = 0;
 
             while (running) {
@@ -54,21 +54,23 @@ public class Game {
                 try {
                     Thread.sleep(10);  // Warte 10 Millisekunden
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.currentThread().interrupt();
                 }
             }
         }).start();
     }
 
-    private void Start(){
-        currentScene.Start();
+    private void startScene() {
+        if (currentScene != null) {
+            currentScene.start();
+        }
     }
 
     private void update() {
         if (currentScene != null) {
-            currentScene.PhysicsUpdate();
-            currentScene.Update();
-            currentScene.LateUpdate();
+            currentScene.physicsUpdate();
+            currentScene.update();
+            currentScene.lateUpdate();
             Input.update();
         }
     }

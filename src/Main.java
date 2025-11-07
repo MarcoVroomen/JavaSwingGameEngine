@@ -1,4 +1,7 @@
-import Engine.*;
+import engine.Game;
+import engine.GamePanel;
+import engine.Input;
+import engine.Scene;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;

@@ -1,7 +1,6 @@
-package Engine;
+package engine;
 
-public class Rigidbody2D extends Component
-{
+public class Rigidbody2D extends Component {
     private Vector2D velocity = new Vector2D(0, 0);
 
     private float linearDrag = 1.0f;
@@ -10,12 +9,12 @@ public class Rigidbody2D extends Component
 
     private boolean useGravity = true;
 
-    public float get_gravityScale() {
+    public float getGravityScale() {
         return gravityScale;
     }
 
-    public void set_gravityScale(float _gravityScale) {
-        this.gravityScale = _gravityScale;
+    public void setGravityScale(float gravityScale) {
+        this.gravityScale = gravityScale;
     }
 
     public boolean isUseGravity() {
@@ -35,17 +34,17 @@ public class Rigidbody2D extends Component
     }
 
     @Override
-    public void Start() {
+    public void start() {
         // Hier könnten Anfangswerte gesetzt oder Validierungen durchgeführt werden.
     }
 
     @Override
-    public void Update() {
+    public void update() {
         // Möglicher Platz für benutzergesteuerte Bewegungslogik
     }
 
     @Override
-    public void PhysicsUpdate() {
+    public void physicsUpdate() {
         // 1. Gravitation anwenden
 
         if (useGravity) {
@@ -56,18 +55,23 @@ public class Rigidbody2D extends Component
         velocity = velocity.scale(1.0f - linearDrag * Time.getDeltaTime());
 
         // 3. Position aktualisieren
-        Vector2D currentPosition = MyGameObject.GetTransform().getPosition();
+        GameObject owner = getGameObject();
+        if (owner == null || owner.getTransform() == null) {
+            return;
+        }
+
+        Vector2D currentPosition = owner.getTransform().getPosition();
         Vector2D deltaMovement = velocity.scale(Time.getDeltaTime());
         Vector2D newPosition = currentPosition.add(deltaMovement);
-        MyGameObject.GetTransform().setPosition(newPosition);
+        owner.getTransform().setPosition(newPosition);
     }
 
     @Override
-    public void LateUpdate() {
+    public void lateUpdate() {
         // Hier könnte z. B. eine Kollisionserkennung kommen
     }
 
-    public void AddVelocity(Vector2D velocityToAdd){
+    public void addVelocity(Vector2D velocityToAdd) {
         this.velocity = this.velocity.add(velocityToAdd);
     }
 

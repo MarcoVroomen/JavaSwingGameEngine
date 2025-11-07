@@ -1,6 +1,9 @@
-package Engine;
+package engine;
 
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Composite;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,8 +14,7 @@ import javax.imageio.ImageIO;
  * Position und optionale Zielgröße sind in "Tile"-Einheiten angegeben und
  * werden beim Rendern mit tileSize multipliziert, sodass alles am Raster ausgerichtet ist.
  */
-public class SpriteRenderer2D extends Renderer
-{
+public class SpriteRenderer2D extends Renderer {
     // --- Raster-Konfiguration ---
     private int tileSize = 32; // Größe einer Kachel in Pixeln (konfigurierbar)
 
@@ -28,19 +30,19 @@ public class SpriteRenderer2D extends Renderer
     // ------------------ Lebenszyklus-Hooks ------------------
 
     @Override
-    public void Start() { /* nichts nötig */ }
+    public void start() { /* nichts nötig */ }
 
     @Override
-    public void Update() { /* nichts nötig */ }
+    public void update() { /* nichts nötig */ }
 
     @Override
-    public void PhysicsUpdate() { /* nichts nötig */ }
+    public void physicsUpdate() { /* nichts nötig */ }
 
     @Override
-    public void LateUpdate() { /* nichts nötig */ }
+    public void lateUpdate() { /* nichts nötig */ }
 
     @Override
-    public void Render(Graphics2D g, int screenWidth, int screenHeight)
+    public void render(Graphics2D g, int screenWidth, int screenHeight)
     {
         if (!visible || image == null) return;
 
